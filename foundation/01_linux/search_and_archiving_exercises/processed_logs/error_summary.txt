@@ -1,0 +1,2 @@
+raw_logs/app_1.log:[2025-06-17 15:11] ERROR: Failed to connect to database. Service unavailable.
+raw_logs/auth_service.txt:[2025-06-17 15:14] FATAL_ERROR: Authentication service failed.
