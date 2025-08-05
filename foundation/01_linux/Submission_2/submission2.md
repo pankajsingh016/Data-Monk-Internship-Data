@@ -9,3 +9,6 @@
 
 <h2>Screenshot 3</h2>
 <img src="https://github.com/pankajsingh016/Data-Monk-Internship-Data/blob/main/foundation/01_linux/Submission_2/Command%202%2C3.png">
+
+<h2>Screehshot 4</h2>
+<img src="https://github.com/pankajsingh016/Data-Monk-Internship-Data/blob/main/foundation/01_linux/Submission_2/zip%20files.png">
