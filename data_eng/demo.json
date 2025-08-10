@@ -1,0 +1,10 @@
+{
+    "User1":{
+        "name":"Pankaj",
+        "age":23
+    },
+    "User2":{
+        "name":"Lakhan",
+        "age":21
+    }
+}
