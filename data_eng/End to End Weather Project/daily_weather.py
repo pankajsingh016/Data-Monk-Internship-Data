@@ -8,9 +8,9 @@ def aggregated_daily_weather():
     cur = conn.cursor()
     
     cur.execute("""
-                Insert or Replace Into daily_weather(city,date,max_temp,min_temp, avg_humidity) 
-                SELECT city,Date(timestamp) as date, Max(temp), Min(temp), AVG(humidity) From weather 
-                Group By city, Date(timestamp)
+                Insert or Replace Into daily_weather(city,date,max_temp,min_temp, avg_humidity,country) 
+                SELECT city,Date(local_timestamp) as date, Max(temp), Min(temp), AVG(humidity),country From weather 
+                Group By city, Date(local_timestamp)
                 """)
     conn.commit()
     conn.close()

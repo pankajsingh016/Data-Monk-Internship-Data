@@ -8,13 +8,13 @@ def aggregated_global_weather():
     cur = conn.cursor()
     
     cur.execute("""
-                INSERT INTO global_weather(city, avg_max_temp, avg_min_temp, avg_humidity)
+                INSERT INTO global_weather(city, avg_max_temp, avg_min_temp, avg_humidity,country)
                 SELECT
                     city,
                     AVG(max_temp),
                     AVG(min_temp),
-                    AVG(avg_humidity)
-                
+                    AVG(avg_humidity),
+                    country 
                 From daily_weather
                 Group By city
                 ON CONFLICT(city) DO UPDATE SET

@@ -10,8 +10,10 @@ SCHEMA = {
             temp REAL,
             humidity INTEGER,
             weather TEXT,
-            timestamp TEXT NOT NULL,
-            UNIQUE(city, timestamp)
+            utc_timestamp TEXT NOT NULL,
+            country TEXT,
+            local_timestamp TEXT NOT NULL,
+            UNIQUE(city, utc_timestamp, local_timestamp)
         );
     ''',
     'daily_weather': '''
@@ -22,6 +24,7 @@ SCHEMA = {
             max_temp REAL,
             min_temp REAL,
             avg_humidity REAL,
+            country TEXT,
             UNIQUE(city, date)
         );
     ''',
@@ -31,7 +34,8 @@ SCHEMA = {
             avg_max_temp REAL,
             avg_min_temp REAL,
             avg_humidity REAL,
-            last_updated TEXT
+            last_updated TEXT,
+            country TEXT
         );
     '''
 }

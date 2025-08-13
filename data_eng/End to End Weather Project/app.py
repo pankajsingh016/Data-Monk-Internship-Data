@@ -7,3 +7,4 @@
 # india_cities.py ----------> List of cities to process
 # data.db ------------> SQLite database file
 
+# creating city data script.py ===> from open weather city.json fetch the city and its lat,lon 

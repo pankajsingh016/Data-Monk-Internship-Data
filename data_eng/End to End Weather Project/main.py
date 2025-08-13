@@ -20,13 +20,18 @@ def run_etl():
             lon = row['lon']
 
             try:
+                # Feature needed to be taken [‘date’, ‘time’, ‘temperature’, ‘condition’, ‘humidity’, ‘location_name’, ‘region’, ‘country’, ‘latitude’, ‘longitude’, ‘local_time’]
+               
                 data = fetch_current_weather(lat, lon)
                 print(data)
                 temp = data['main']['temp']
                 humidity = data['main']['humidity']
                 weather_desc = data["weather"][0]["description"]
+                country = data["sys"]["country"]
+                dt = data["dt"]
+                timezone_offset=data["timezone"]
 
-                insert_hourly_weather(city,lat,lon, temp, humidity,weather_desc)
+                insert_hourly_weather(city,lat,lon, temp, humidity,weather_desc,country,dt,timezone_offset)
                 print(f"Stored {city}->{temp} celsius, {humidity}%, {weather_desc}")
             
             except Exception as e:
@@ -37,10 +42,18 @@ def run_etl():
 
 
 if __name__ == "__main__":
+    count = 0
     while True:
         run_etl()
-        print("WAiting for 1 hour")
-        time.sleep(3600)
+        print(f"Loop {count} Started.")
+        
+        for remaning in range(300,0,-1):
+            mins,sec = divmod(remaning,60)
+            print(f"Sleeping:{mins:02d}:{sec:02d} remaning",end="\r")
+            time.sleep(1)
+        
+        print(f"Hour {count} Completed.")
+        count+=1
         
         
         
