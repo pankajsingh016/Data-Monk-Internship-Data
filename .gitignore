@@ -1,2 +1,7 @@
 *.csv
 *.db
+*.zip
+# Ignore DuckDB and CSV data
+*.duckdb
+*.csv
+*.parquet
