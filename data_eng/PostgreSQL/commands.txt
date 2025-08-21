@@ -1,0 +1,129 @@
+CREATE DATABASE learn_pg;
+\c learn_pg;
+
+
+-- Users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT
+);
+
+-- Products table
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    price NUMERIC
+);
+
+-- Orders table
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    product_id INT REFERENCES products(id),
+    quantity INT,
+    order_date TIMESTAMP DEFAULT now()
+);
+
+-- Bookings table (for date ranges)
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    guest_name TEXT,
+    stay_period DATERANGE
+);
+
+
+
+-- Suppose we already have a 'products' table
+ALTER TABLE products ADD COLUMN specs JSONB;
+
+-- Insert flexible data
+INSERT INTO products (id, name, specs)
+VALUES
+(1, 'Laptop', '{"ram":"16GB", "storage":"512GB SSD"}'),
+(2, 'Phone', '{"camera":"108MP", "battery":"5000mAh"}'),
+(3, 'Headphones', '{"type":"over-ear", "wireless":true}');
+
+-- Query a specific key
+SELECT name, specs->>'ram' AS ram_size
+FROM products
+WHERE specs ? 'ram';
+
+
+-- Enable extension
+CREATE EXTENSION IF NOT EXISTS citext;
+
+-- Create a users table with citext email
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email CITEXT UNIQUE
+);
+
+-- Insert test emails
+INSERT INTO users (email) VALUES ('Test@Example.com');
+INSERT INTO users (email) VALUES ('test@example.com');  -- will fail (duplicate)
+
+-- Enable extension
+CREATE EXTENSION IF NOT EXISTS hstore;
+
+-- Add column for preferences
+ALTER TABLE users ADD COLUMN preferences hstore;
+
+-- Insert preferences
+UPDATE users
+SET preferences = '"theme"=>"dark", "language"=>"en"'
+WHERE id = 1;
+
+-- Query a single preference
+SELECT email, preferences->'theme' AS theme_pref
+FROM users;
+
+
+-- Create bookings table
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    customer TEXT,
+    stay DATERANGE
+);
+
+-- Insert ranges
+INSERT INTO bookings (customer, stay)
+VALUES
+('Alice', '[2025-08-20,2025-08-25)'),
+('Bob',   '[2025-08-22,2025-08-23)'),
+('Charlie', '[2025-09-01,2025-09-05)');
+
+-- Find bookings overlapping with given date
+SELECT customer, stay
+FROM bookings
+WHERE stay && '[2025-08-23,2025-08-24)';
+
+
+-- Example: Suppose we have orders + customers
+CREATE MATERIALIZED VIEW order_summary AS
+SELECT c.id AS customer_id, c.name,
+       COUNT(o.id) AS total_orders,
+       SUM(o.amount) AS total_spent
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id
+GROUP BY c.id, c.name;
+
+-- Query it
+SELECT * FROM order_summary;
+
+-- Refresh when data changes
+REFRESH MATERIALIZED VIEW order_summary;
+
+
+# Backup in custom format
+pg_dump -U postgres -F c -d your_db -f backup_file.dump
+
+# Create new database
+createdb -U postgres restored_db
+
+# Restore backup
+pg_restore -U postgres -d restored_db backup_file.dump
+
+# Verify
+psql -U postgres -d restored_db -c "\dt"
+
