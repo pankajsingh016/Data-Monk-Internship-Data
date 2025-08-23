@@ -1,0 +1,66 @@
+CREATE DATABASE IF NOT EXISTS codec_test;
+USE codec_test;
+
+
+-- Table with no codec
+CREATE TABLE dt_none
+(
+    id UInt32,
+    ts DateTime CODEC(NONE)
+)
+ENGINE = MergeTree
+ORDER BY id;
+
+-- Table with LZ4
+CREATE TABLE dt_lz4
+(
+    id UInt32,
+    ts DateTime CODEC(LZ4)
+)
+ENGINE = MergeTree
+ORDER BY id;
+
+-- Table with ZSTD
+CREATE TABLE dt_zstd
+(
+    id UInt32,
+    ts DateTime CODEC(ZSTD)
+)
+ENGINE = MergeTree
+ORDER BY id;
+
+-- Table with DoubleDelta (best for timestamps)
+CREATE TABLE dt_doubledelta
+(
+    id UInt32,
+    ts DateTime CODEC(DoubleDelta)
+)
+ENGINE = MergeTree
+ORDER BY id;
+
+
+INSERT INTO dt_none
+SELECT number, toDateTime('2024-01-01 00:00:00') + number
+FROM numbers(1000000);
+
+INSERT INTO dt_lz4
+SELECT number, toDateTime('2024-01-01 00:00:00') + number
+FROM numbers(1000000);
+
+INSERT INTO dt_zstd
+SELECT number, toDateTime('2024-01-01 00:00:00') + number
+FROM numbers(1000000);
+
+INSERT INTO dt_doubledelta
+SELECT number, toDateTime('2024-01-01 00:00:00') + number
+FROM numbers(1000000);
+
+SELECT
+    table,
+    formatReadableSize(sum(bytes_on_disk)) AS size_on_disk,
+    sum(rows) AS total_rows
+FROM system.parts
+WHERE database = 'codec_test'
+  AND active
+GROUP BY table
+ORDER BY size_on_disk ASC;
