@@ -6,3 +6,5 @@
 *.csv
 *.parquet
 *.dumb
+logs
+__pycache__
