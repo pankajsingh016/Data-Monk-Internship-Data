@@ -1,9 +1,10 @@
 import sqlite3
 
-DB_FILE = "data.db"
+# DB_FILE = "../../data.db"
 
 
-def aggregated_daily_weather():
+
+def aggregated_daily_weather(DB_FILE):
     conn = sqlite3.connect(DB_FILE)
     cur = conn.cursor()
     

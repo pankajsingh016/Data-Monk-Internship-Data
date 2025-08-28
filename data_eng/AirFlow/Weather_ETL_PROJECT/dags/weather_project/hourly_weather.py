@@ -1,10 +1,10 @@
 import sqlite3
 from datetime import datetime, timezone, timedelta
 
-DB_FILE = "data.db"
+# DB_FILE = "../../data.db"
 
 
-def insert_hourly_weather(city,lat,lon,temp,humidity,weather_desc,country,dt,timezone_offset):
+def insert_hourly_weather(city,lat,lon,temp,humidity,weather_desc,country,dt,timezone_offset, DB_FILE):
     
     conn = sqlite3.connect(DB_FILE)
     cur = conn.cursor()

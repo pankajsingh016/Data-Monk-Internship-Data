@@ -24,7 +24,7 @@ def fetch_current_weather(lat,lon):
     params = {
         "lat":lat,
         "lon":lon,
-        "appid":API_KEY,
+        "appid":"b1d54ad24e20ad7b9b20a87f155f5b75",
         "units":"metric"
     }
 

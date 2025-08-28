@@ -40,7 +40,7 @@ SCHEMA = {
     '''
 }
 
-def create_tables(db_path='./weaither_project/data.db'):
+def create_tables(db_path):
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     for q in SCHEMA.values():
