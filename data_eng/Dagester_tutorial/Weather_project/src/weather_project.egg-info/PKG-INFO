@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: weather_project
+Version: 0.1.0
+Summary: Weather data pipeline using Dagster
+Author-email: Pankaj Kanyal <your_email@example.com>
+Requires-Dist: dagster
+Requires-Dist: dagster-webserver
+Requires-Dist: pandas
+Requires-Dist: requests
