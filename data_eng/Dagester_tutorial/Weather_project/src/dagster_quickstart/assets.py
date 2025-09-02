@@ -16,7 +16,7 @@ def setup_database():
 
 
 @asset(deps=[setup_database])
-def fetch_weather():
+def weather():
     inserted_cities = []
     with open(CSV_FILE, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -45,12 +45,12 @@ def fetch_weather():
     )
 
 
-@asset(deps=[fetch_weather])
-def fetch_daily_weather():
+@asset(deps=[weather])
+def daily_weather():
     aggregated_daily_weather(DB_FILE)
     return MaterializeResult(metadata={"status": "Daily weather aggregation complete"})
 
-@asset(deps=[fetch_daily_weather])
+@asset(deps=[daily_weather])
 def global_weather():
     aggregated_global_weather(DB_FILE)
     return MaterializeResult(metadata={"status": "Global weather aggregation complete"})
