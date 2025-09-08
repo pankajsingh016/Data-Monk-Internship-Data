@@ -1,0 +1,19 @@
+admin:
+  endpoint: dns:///localhost:30081
+  insecure: true
+data:
+  storage:
+    connection:
+      access_key: minio
+      auth_type: accesskey
+      # The endpoint your local machine uses to connect to the proxy
+      endpoint: http://localhost:30084
+      region: us-east-1
+      secret_key: miniostorage
+      secure: false
+    stow:
+      disable_http_cache: true
+      s3:
+        # Change this to a hostname or IP that your local machine can resolve.
+        # This is often the same as the connection endpoint for local setups.
+        endpoint: http://localhost:30084

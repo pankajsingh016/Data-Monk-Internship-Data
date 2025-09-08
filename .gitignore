@@ -8,3 +8,5 @@
 *.dumb
 logs
 __pycache__
+.venv
+.kube

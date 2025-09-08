@@ -1,0 +1,22 @@
+admin:
+  endpoint: localhost:30080
+  insecure: true
+
+logger:
+  show-source: true
+  level: 1
+
+storage:
+  type: minio
+  connection:
+    access-key: minio
+    secret-key: miniostorage
+    endpoint: http://localhost:30084
+    secure: false
+
+# Use default flytekit image to avoid registry issues
+# Use the "latest" tag which typically has more packages
+image_config:
+  default_image:
+    fqn: "cr.flyte.org/flyteorg/flytekit"
+    tag: "py3.11-latest"
