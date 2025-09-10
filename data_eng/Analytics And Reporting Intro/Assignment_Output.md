@@ -14,7 +14,7 @@
 ## Superset Dashboard
 <img src="./Outputs/part_2/c.png">
 <img src="./Outputs/part_2/c.png">
-<img src="./Outputs/part_2/d.png">
+<!-- <img src="./Outputs/part_2/d.png"> -->
 
 ## Connected the mysql-container after copying the sakila dasbhoard with it
 <img src="./Outputs/part_2/e.png">
