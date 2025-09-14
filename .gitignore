@@ -10,3 +10,7 @@ logs
 __pycache__
 .venv
 .kube
+*kafka
+./kafka
+kafka_2.13-3.7.0.tgz
+*.env
